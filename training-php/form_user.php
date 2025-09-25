@@ -12,17 +12,6 @@ if (!empty($_GET['id'])) {
     $user = $userModel->findUserById($_id);//Update existing user
 }
 
-
-if (!empty($_POST['submit'])) {
-
-    if (!empty($_id)) {
-        $userModel->updateUser($_POST);
-    } else {
-        $userModel->insertUser($_POST);
-    }
-    header('location: list_users.php');
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,6 +29,7 @@ if (!empty($_POST['submit'])) {
                 </div>
                 <form method="POST">
                     <input type="hidden" name="id" value="<?php echo $_id ?>">
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input class="form-control" name="name" placeholder="Name" value='<?php if (!empty($user[0]['name'])) echo $user[0]['name'] ?>'>

