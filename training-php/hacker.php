@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +12,7 @@
     <img src="https://quocmedia.com/wp-content/uploads/2023/07/Dang-ky-PAyoner.jpg" alt="">
     <form action="http://localhost:8080/delete_user.php" method="POST"> 
         đăng ký thành công nhận ngay 20 tr
-        <input type="hidden" name="id" value="15">
+        <input type="hidden" name="id" value="<?php echo $_SESSION['id']; ?>">
         <button type="submit" name="submit" value="submit" class="btn btn-primary">Đăng ký</button>
     </form>
 </body>
