@@ -4,6 +4,10 @@ session_start();
 
 require_once 'models/UserModel.php';
 $userModel = new UserModel();
+if (empty($_SESSION['id'])) {
+    header('location: login.php');
+    exit();
+}
 
 $params = [];
 if (!empty($_GET['keyword'])) {
