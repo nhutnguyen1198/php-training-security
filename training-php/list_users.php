@@ -2,13 +2,25 @@
 // Start the session
 session_start();
 
-require_once 'models/UserModel.php';
-$userModel = new UserModel();
 if (empty($_SESSION['id'])) {
-    header('location: login.php');
-    exit();
+    header('Location: login.php');
+    exit;
 }
 
+// Chống đánh cắp session: kiểm tra User-Agent và IP
+if (
+    empty($_SESSION['user_agent']) ||
+    $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT'] ||
+    empty($_SESSION['ip']) ||
+    $_SESSION['ip'] !== $_SERVER['REMOTE_ADDR']
+) {
+    session_destroy();
+    header('Location: login.php');
+    exit;
+}
+
+require_once 'models/UserModel.php';
+$userModel = new UserModel();
 $params = [];
 if (!empty($_GET['keyword'])) {
     $params['keyword'] = $_GET['keyword'];
@@ -43,24 +55,24 @@ $users = $userModel->getUsers($params);
                 <tbody>
                     <?php foreach ($users as $user) {?>
                         <tr>
-                            <th scope="row"><?php echo $user['id']?></th>
+                            <th scope="row"><?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8')?></th>
                             <td>
-                                <?php echo $user['name']?>
+                                <?php echo htmlspecialchars($user['name'], ENT_QUOTES, 'UTF-8')?>
                             </td>
                             <td>
-                                <?php echo $user['fullname']?>
+                                <?php echo !empty($user['fullname']) ? htmlspecialchars($user['fullname'], ENT_QUOTES, 'UTF-8') : " "?>
                             </td>
                             <td>
-                                <?php echo $user['type']?>
+                                <?php echo !empty($user['type']) ? htmlspecialchars($user['type'], ENT_QUOTES, 'UTF-8') : " " ?>
                             </td>
                             <td>
-                                <a href="form_user.php?id=<?php echo $user['id'] ?>">
+                                <a href="form_user.php?id=<?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8')?>">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true" title="Update"></i>
                                 </a>
-                                <a href="view_user.php?id=<?php echo $user['id'] ?>">
+                                <a href="view_user.php?id=<?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8')?>">
                                     <i class="fa fa-eye" aria-hidden="true" title="View"></i>
                                 </a>
-                                <a href="delete_user.php?id=<?php echo $user['id'] ?>">
+                                <a href="delete_user.php?id=<?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8')?>">
                                     <i class="fa fa-eraser" aria-hidden="true" title="Delete"></i>
                                 </a>
                             </td>
